@@ -32,11 +32,11 @@ refactored and expanded into a full ASP.NET Core MVC web application.
 ## Project Structure
 
 MortgageLoanCalculator/
-- MortgageLoanCalculator/            # ASP.NET Core MVC web app
+- MortgageLoanCalculator/
   - Controllers/
     - HomeController.cs
     - LoanController.cs
-  - Models/                           # ViewModels
+  - Models/       
     - MortgageResultViewModel.cs
     - ErrorViewModel.cs
   - Views/
@@ -45,7 +45,7 @@ MortgageLoanCalculator/
     - Shared/
   - Program.cs
 
-- MortgageLoanCalculator.Domain/     # Domain / business logic
+- MortgageLoanCalculator.Domain/
   - Loan.cs
   - LoanCalculator.cs
   - LoanDecisionService.cs
