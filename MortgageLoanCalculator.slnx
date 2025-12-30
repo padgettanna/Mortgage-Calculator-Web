@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MortgageLoanCalculator.Domain/MortgageLoanCalculator.Domain.csproj" />
+  <Project Path="MortgageLoanCalculator/MortgageLoanCalculator.csproj" />
+</Solution>
