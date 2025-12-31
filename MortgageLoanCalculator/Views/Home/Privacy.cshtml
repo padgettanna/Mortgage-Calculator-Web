@@ -3,4 +3,50 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container mt-4">
+
+    <h2>Overview</h2>
+    <p>
+        This Mortgage Calculator is an educational web application created as part of a computer science project.
+        It allows users to explore mortgage payment estimates and loan eligibility scenarios.
+    </p>
+
+    <h2>Information Usage</h2>
+    <p>
+        The application processes user-provided information such as loan amounts, interest rates, income, and
+        other financial inputs solely for the purpose of performing mortgage calculations.
+    </p>
+    <p>
+        This information is used only during your active session and is not associated with any user account.
+    </p>
+
+    <h2>Data Storage</h2>
+    <p>
+        The application does not permanently store personal or financial information.
+        Loan input data may be temporarily retained during navigation to support recalculation and adjustment,
+        and is cleared when you reset the form or start a new calculation.
+    </p>
+
+    <h2>Cookies and Session Data</h2>
+    <p>
+        Temporary session data may be used to support application functionality.
+        No tracking, analytics, or advertising cookies are used.
+    </p>
+
+    <h2>Information Sharing</h2>
+    <p>
+        This application does not share, sell, or transmit user-provided information to third parties.
+    </p>
+
+    <h2>Disclaimer</h2>
+    <p>
+        All results provided by this calculator are estimates only and are not financial advice
+        or a loan commitment. Users should consult qualified financial professionals before
+        making financial decisions.
+    </p>
+
+    <p class="text-muted mt-4">
+        <small>Last updated: @DateTime.Now.ToString("MMMM dd, yyyy")</small>
+    </p>
+
+</div>

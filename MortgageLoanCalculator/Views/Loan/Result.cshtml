@@ -3,7 +3,7 @@
     ViewData["Title"] = "Result";
 }
 
-<h2>Mortgage Result</h2>
+<h1 class="display-6">Mortgage Result</h1>
 <p><i>This calculator assumes closing costs are financed into the loan.</i></p>
 
 <table class="table table-striped">
@@ -131,5 +131,7 @@
 
 <p><i>Results are estimates and not a loan commitment.</i></p>
 
-<a asp-action="Create" class="btn btn-secondary">Adjust Values</a>
-<a asp-controller="Loan" asp-action="Reset" class="btn btn-secondary">Reset</a>
+<div class="d-grid gap-2 d-md-flex">
+    <a asp-action="Create" class="btn btn-secondary" style="width: 150px;">Adjust Values</a>
+    <a asp-controller="Loan" asp-action="Reset" class="btn btn-secondary" style="width: 150px;">Reset</a>
+</div>
