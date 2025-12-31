@@ -1,6 +1,12 @@
 # Mortgage Calculator Web Application
 
-A comprehensive mortgage loan calculator web application built with ASP.NET Core (Razor Pages) and .NET 10. This application helps users calculate monthly mortgage payments, determine loan eligibility, and understand the financial implications of their home purchase.
+A mortgage loan calculator web application built with C# and ASP.NET Core MVC. This application helps users calculate monthly mortgage payments, determine loan eligibility, and understand the financial implications of their home purchase.
+
+## Project Status
+
+This project is actively under development as part of a Computer Science capstone.
+It originated as a console-based mortgage calculator and is being incrementally
+refactored and expanded into a full ASP.NET Core MVC web application.
 
 ## Features
 
@@ -15,38 +21,35 @@ A comprehensive mortgage loan calculator web application built with ASP.NET Core
   - Private Mortgage Insurance (PMI) when applicable
 - **Multiple Loan Terms**: Support for different loan term lengths
 - **User-Friendly Interface**: Clean, responsive design for easy data entry
-- **Results Persistence**: Maintains loan information across sessions using TempData
+- **Results Flow**: Temporarily preserves loan input to support recalculation and adjustment
 
 ## Technology Stack
 
-- **Framework**: ASP.NET Core with Razor Pages
+- **Framework**: ASP.NET Core MVC
 - **.NET Version**: .NET 10
 - **Architecture**: Clean architecture with separate domain layer
-- **Pattern**: MVC (Model-View-Controller)
 
 ## Project Structure
 
-```
 MortgageLoanCalculator/
-??? MortgageLoanCalculator/           # Main web application
-?   ??? Controllers/                  # MVC Controllers
-?   ?   ??? HomeController.cs
-?   ?   ??? LoanController.cs
-?   ??? Models/                       # View Models
-?   ?   ??? MortgageResultViewModel.cs
-?   ?   ??? ErrorViewModel.cs
-?   ??? Views/                        # Razor Views
-?   ?   ??? Home/
-?   ?   ??? Loan/
-?   ?   ??? Shared/
-?   ??? Program.cs                    # Application entry point
-?
-??? MortgageLoanCalculator.Domain/    # Domain/Business Logic Layer
-    ??? Loan.cs
-    ??? LoanCalculator.cs
-    ??? LoanDecisionService.cs
-    ??? MortgageCalculatorConstants.cs
-```
+- MortgageLoanCalculator/
+  - Controllers/
+    - HomeController.cs
+    - LoanController.cs
+  - Models/       
+    - MortgageResultViewModel.cs
+    - ErrorViewModel.cs
+  - Views/
+    - Home/
+    - Loan/
+    - Shared/
+  - Program.cs
+
+- MortgageLoanCalculator.Domain/
+  - Loan.cs
+  - LoanCalculator.cs
+  - LoanDecisionService.cs
+  - MortgageCalculatorConstants.cs
 
 ## Getting Started
 
@@ -123,14 +126,6 @@ Stores financial constants such as:
 - Property tax rates
 - Insurance rates
 - PMI thresholds
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ## Author
 
