@@ -46,7 +46,9 @@
 
                         <div class="mb-3">
                             <label asp-for="NumPaymentsPerYear" class="form-label">Payments Per Year</label>
-                            <input asp-for="NumPaymentsPerYear" class="form-control" type="number" placeholder="12 for monthly"/>
+                            <select asp-for="NumPaymentsPerYear" class="form-select" asp-items="Html.GetEnumSelectList<PaymentsPerYear>()">
+                                <option value="">-- Select Number of Payments Per Year --</option>
+                            </select>
                             <span asp-validation-for="NumPaymentsPerYear" class="text-danger"></span>
                         </div>
 
