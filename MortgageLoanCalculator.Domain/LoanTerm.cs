@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MortgageLoanCalculator.Domain;
 
+/// <summary>
+/// Represents the duration of a mortgage loan term in years.
+/// </summary>
 public enum LoanTerm : int
 {
     [Display(Name = "15 Years")]

@@ -1,9 +1,12 @@
 namespace MortgageLoanCalculator.Domain
 {
+    /// <summary>
+    /// Provides mortgage loan calculation services including payment schedules, fees, and equity computations.
+    /// All calculations assume that origination fees and closing costs are financed into the loan principal.
+    /// </summary>
     public class LoanCalculator
     {
-        // The calculator assumes origination fees and closing costs
-        // are financed into the loan principal
+        // Formula: (purchasePrice - downPayment) * (1 + OriginationFeePercentage) + ClosingCosts
         private double CalculateLoanAmount(double purchasePrice, double downPayment)
         {
             return ((purchasePrice - downPayment) * MortgageCalculatorConstants.OriginationFeePercentage) + (purchasePrice - downPayment) + MortgageCalculatorConstants.ClosingCosts;
@@ -19,6 +22,7 @@ namespace MortgageLoanCalculator.Domain
             return marketValue - CalculateLoanAmount(purchasePrice, downPayment);
         }
 
+        // If less than 10%, loan insurance (PMI) is required
         private double CalculateEquityPercentage(double marketValue, double purchasePrice, double downPayment)
         {
             return CalculateEquityValue(marketValue, purchasePrice, downPayment) / marketValue * 100;
@@ -28,15 +32,17 @@ namespace MortgageLoanCalculator.Domain
         {
             return (annualInterestRate / 100) / numPaymentsPerYear;
         }
+
         private int CalculateTotalPaymentsPerLoan(int numPaymentsPerYear, int term)
         {
             return numPaymentsPerYear * term;
         }
 
+        // Returns 0 if equity percentage is 10% or greater
         private double CalculateLoanInsurancePerMonth(double marketValue, double purchasePrice, double downPayment, int numPaymentsPerYear)
         {
             double loanInsurancePerMonth = 0;
-            if (CalculateEquityPercentage(marketValue, purchasePrice, downPayment) < 10)
+            if (CalculateEquityPercentage(marketValue, purchasePrice, downPayment) < MortgageCalculatorConstants.MinEquityPercentageWithoutPMI)
             {
                 loanInsurancePerMonth = CalculateLoanAmount(purchasePrice, downPayment) * MortgageCalculatorConstants.LoanInsurancePercentage / numPaymentsPerYear;
             }
@@ -53,6 +59,7 @@ namespace MortgageLoanCalculator.Domain
             return marketValue * MortgageCalculatorConstants.AnnualHomeownersInsurancePercentage / numPaymentsPerYear;
         }
 
+        // Uses standard amortization formula: P * [r(1 + r)^n] / [(1 + r)^n - 1]
         private double CalculateMonthlyPaymentPI(Loan loan)
         {
             double growthFactor = Math.Pow(1 + CalculateMonthlyInterestRate(loan.AnnualInterestRate.Value, loan.NumPaymentsPerYear), CalculateTotalPaymentsPerLoan(loan.NumPaymentsPerYear, (int)loan.Term));

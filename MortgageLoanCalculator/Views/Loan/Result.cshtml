@@ -1,4 +1,8 @@
-﻿@model MortgageResultViewModel
+﻿@*
+    Mortgage Calculation Results
+    Displays calculated loan metrics, monthly payment breakdown, and approval/denial decision.
+*@
+@model MortgageResultViewModel
 @{
     ViewData["Title"] = "Result";
 }
@@ -6,6 +10,7 @@
 <h1 class="display-6">Mortgage Result</h1>
 <p><i>This calculator assumes closing costs are financed into the loan.</i></p>
 
+@* Borrower and Basic Loan Info *@
 <table class="table table-striped">
     <colgroup>
         <col style="width: 55%;">
@@ -40,6 +45,7 @@
     </tbody>
 </table>
 
+@* Calculated Loan Amounts and Equity *@
 <table class="table table-striped">
     <colgroup>
         <col style="width: 55%;">
@@ -74,6 +80,7 @@
     </tbody>
 </table>
 
+@* Monthly Payment Breakdown (P&I, taxes, insurance, HOA, PMI) *@
 <table class="table table-striped">
     <colgroup>
         <col style="width: 55%;">
@@ -112,6 +119,7 @@
     </tbody>
 </table>
 
+@* Approval/Denial Decision *@
 <p>
     <strong>Decision:</strong>
     @if (Model.Decision.Decision == "APPROVE")

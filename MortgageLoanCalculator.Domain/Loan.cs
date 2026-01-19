@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MortgageLoanCalculator.Domain;
 
+/// <summary>
+/// Represents a mortgage loan application with borrower information, property details, and loan terms.
+/// </summary>
 public class Loan
 {
     public int LoanId { get; set;}
@@ -19,6 +22,7 @@ public class Loan
                      ErrorMessage = "Annual Income must be between {1:C} and {2:C}")]
     public double? AnnualIncome { get; set; }
 
+    // Used to calculate equity percentage and determine if loan insurance is required
     [Required(ErrorMessage = "Market value is required")]
     [Range(MortgageCalculatorConstants.MinPropertyPrice, MortgageCalculatorConstants.MaxPropertyPrice,
             ErrorMessage = "Market value must be between {1:C} and {2:C}")]
@@ -34,11 +38,13 @@ public class Loan
             ErrorMessage = "Down payment must be between {1:C} and {2:C}")]
     public double? DownPayment { get; set; }
 
+    // As a percentage (e.g., 5.5 represents 5.5%)
     [Required(ErrorMessage = "Annual interest rate is required")]
     [Range(MortgageCalculatorConstants.MinInterestRate, MortgageCalculatorConstants.MaxInterestRate,
             ErrorMessage = "Annual interest rate must be between {1}% and {2}%")]
     public double? AnnualInterestRate { get; set; }
 
+    // Common values: 12 (monthly), 24 (semi-monthly), or 4 (quarterly)
     [Required(ErrorMessage = "Number of payments per year is required")]
     [Range(1, 24, ErrorMessage = "Number of payments per year must be between {1} and {2}")]
     public int NumPaymentsPerYear { get; set; }
@@ -46,6 +52,7 @@ public class Loan
     [Required(ErrorMessage = "Loan term is required")]
     public LoanTerm Term { get; set; }
 
+    // Set to 0 if the property has no HOA
     [Required(ErrorMessage = "Annual HOA fee is required")]
     [Range(0, MortgageCalculatorConstants.MaxAnnualHoaFee,
             ErrorMessage = "Annual HOA fee must be between {1:C} and {2:C}")]

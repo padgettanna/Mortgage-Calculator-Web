@@ -1,4 +1,8 @@
-﻿@using MortgageLoanCalculator.Domain
+﻿@*
+    Mortgage Loan Input Form
+    Collects borrower information, property details, and loan terms for calculation.
+*@
+@using MortgageLoanCalculator.Domain
 @model MortgageLoanCalculator.Domain.Loan
 
 @{
@@ -14,6 +18,7 @@
             <form asp-action="Create" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row">
+                    @* Left Column: Borrower and Loan Terms *@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label asp-for="BorrowerFirstName" class="form-label">First Name</label>
@@ -62,6 +67,7 @@
                         </div>
                     </div>
 
+                    @* Right Column: Property Details *@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label asp-for="MarketValue" class="form-label">Market Value</label>
