@@ -5,7 +5,7 @@ namespace MortgageLoanCalculator.Models
 {
     public class MortgageResultViewModel
     {
-        public string BorrowerName { get; set; }
+        public int SnapshotId { get; set; }
         public double AnnualIncome { get; set; }
         public double PurchasePrice { get; set; }
         public double DownPayment { get; set; }

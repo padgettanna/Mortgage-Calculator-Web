@@ -21,18 +21,6 @@
                     @* Left Column: Borrower and Loan Terms *@
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label asp-for="BorrowerFirstName" class="form-label">First Name</label>
-                            <input asp-for="BorrowerFirstName" class="form-control" />
-                            <span asp-validation-for="BorrowerFirstName" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="BorrowerLastName" class="form-label">Last Name</label>
-                            <input asp-for="BorrowerLastName" class="form-control" />
-                            <span asp-validation-for="BorrowerLastName" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
                             <label asp-for="AnnualIncome" class="form-label">Annual Income</label>
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
@@ -108,7 +96,7 @@
                 </div>
 
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Calculate Mortgage</button>
+                    <button type="submit" class="btn btn-primary btn-lg" onclick="this.disabled=true; this.form.submit();">Calculate Mortgage</button>
                 </div>
             </form>
         </div>

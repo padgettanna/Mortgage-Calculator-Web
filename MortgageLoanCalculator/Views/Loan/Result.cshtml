@@ -23,8 +23,8 @@
     </thead>
     <tbody>
         <tr>
-            <td>Borrower</td>
-            <td>@Model.BorrowerName</td>
+            <td>Annual Income</td>
+            <td>@Model.AnnualIncome.ToString("C")</td>
         </tr>
         <tr>
             <td>Purchase Price</td>
@@ -122,14 +122,9 @@
 @* Approval/Denial Decision *@
 <p>
     <strong>Decision:</strong>
-    @if (Model.Decision.Decision == "APPROVE")
-    {
-        <span class="badge bg-success">APPROVED</span>
-    }
-    else
-    {
-        <span class="badge bg-danger">DENIED</span>
-    }
+    <span class="badge @(Model.Decision.Decision == "APPROVE" ? "badge-approved" : "badge-denied")">
+        @(Model.Decision.Decision == "APPROVE" ? "Approved" : "Denied")
+    </span>
 </p>
 <p class="text-muted">
     Monthly payment represents
@@ -140,6 +135,6 @@
 <p><i>Results are estimates and not a loan commitment.</i></p>
 
 <div class="d-grid gap-2 d-md-flex">
-    <a asp-action="Create" class="btn btn-secondary" style="width: 150px;">Adjust Values</a>
+    <a asp-controller="Loan" asp-action="Adjust" asp-route-id="@Model.SnapshotId" class="btn btn-secondary" style="width: 150px;">Adjust Values</a>
     <a asp-controller="Loan" asp-action="Reset" class="btn btn-secondary" style="width: 150px;">Reset</a>
 </div>

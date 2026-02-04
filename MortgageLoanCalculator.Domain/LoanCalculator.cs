@@ -3,9 +3,25 @@ namespace MortgageLoanCalculator.Domain
     /// <summary>
     /// Provides mortgage loan calculation services including payment schedules, fees, and equity computations.
     /// All calculations assume that origination fees and closing costs are financed into the loan principal.
+    /// 
+    /// - Domain models (Loan) use enums to represent user intent
+    /// - Calculator converts enums to numeric values at a single boundary
+    /// - All math operates strictly on numeric types (int/double)
+    /// - HOA fees are provided annually and divided by payments per year
+    /// 
     /// </summary>
     public class LoanCalculator
     {
+        // Helper methods to convert enum values to integers
+        private int PaymentsPerYearValue(PaymentsPerYear paymentsPerYear)
+        {
+            return (int)paymentsPerYear;
+        }
+
+        private int LoanTermYears(LoanTerm term)
+        {
+            return (int)term;
+        }
         // Formula: (purchasePrice - downPayment) * (1 + OriginationFeePercentage) + ClosingCosts
         private double CalculateLoanAmount(double purchasePrice, double downPayment)
         {
@@ -62,15 +78,25 @@ namespace MortgageLoanCalculator.Domain
         // Uses standard amortization formula: P * [r(1 + r)^n] / [(1 + r)^n - 1]
         private double CalculateMonthlyPaymentPI(Loan loan)
         {
-            double growthFactor = Math.Pow(1 + CalculateMonthlyInterestRate(loan.AnnualInterestRate.Value, loan.NumPaymentsPerYear), CalculateTotalPaymentsPerLoan(loan.NumPaymentsPerYear, (int)loan.Term));
-            return CalculateLoanAmount(loan.PurchasePrice.Value, loan.DownPayment.Value) * (CalculateMonthlyInterestRate(loan.AnnualInterestRate.Value, loan.NumPaymentsPerYear) * growthFactor) / (growthFactor - 1);
+            int paymentsPerYear = PaymentsPerYearValue(loan.NumPaymentsPerYear);
+            int termYears = LoanTermYears(loan.Term);
+
+            double monthlyRate = CalculateMonthlyInterestRate(loan.AnnualInterestRate.Value, paymentsPerYear);
+            int totalPayments = CalculateTotalPaymentsPerLoan(paymentsPerYear, termYears);
+
+            double growthFactor = Math.Pow(1 + monthlyRate, totalPayments);
+
+            return CalculateLoanAmount(loan.PurchasePrice.Value, loan.DownPayment.Value) * (monthlyRate * growthFactor) / (growthFactor - 1);
         }
 
+        // Calculates total periodic payment including all fees.
         private double CalculateMonthlyPaymentTotalWithFees(Loan loan)
         {
-            return CalculateMonthlyPaymentPI(loan) + CalculateLoanInsurancePerMonth(loan.MarketValue.Value, loan.PurchasePrice.Value, loan.DownPayment.Value, loan.NumPaymentsPerYear) 
-                    + (loan.AnnualHoaFee.Value / loan.NumPaymentsPerYear) + CalculatePropertyTaxPerMonth(loan.MarketValue.Value, loan.NumPaymentsPerYear) 
-                    + CalculateHomeownersInsurancePerMonth(loan.MarketValue.Value, loan.NumPaymentsPerYear);
+            int paymentsPerYear = PaymentsPerYearValue(loan.NumPaymentsPerYear);
+
+            return CalculateMonthlyPaymentPI(loan) + CalculateLoanInsurancePerMonth(loan.MarketValue.Value, loan.PurchasePrice.Value, loan.DownPayment.Value, paymentsPerYear) 
+                    + (loan.AnnualHoaFee.Value / paymentsPerYear) + CalculatePropertyTaxPerMonth(loan.MarketValue.Value, paymentsPerYear) 
+                    + CalculateHomeownersInsurancePerMonth(loan.MarketValue.Value, paymentsPerYear);
         }
 
         public LoanCalculationResult CalculateResult(Loan loan)
@@ -80,17 +106,20 @@ namespace MortgageLoanCalculator.Domain
                 throw new ArgumentNullException(nameof(loan));
             }
 
+            int paymentsPerYear = PaymentsPerYearValue(loan.NumPaymentsPerYear);
+            int termYears = LoanTermYears(loan.Term);
+
             LoanCalculationResult loanCalculationResult = new LoanCalculationResult()
             {
                 LoanAmount = CalculateLoanAmount(loan.PurchasePrice.Value, loan.DownPayment.Value),
                 OriginationFee = CalculateOriginationFee(loan.PurchasePrice.Value, loan.DownPayment.Value),
                 ClosingCosts = MortgageCalculatorConstants.ClosingCosts,
-                TotalPaymentsPerLoan = CalculateTotalPaymentsPerLoan(loan.NumPaymentsPerYear, (int)loan.Term),
+                TotalPaymentsPerLoan = CalculateTotalPaymentsPerLoan(paymentsPerYear, termYears),
                 EquityPercentage = CalculateEquityPercentage(loan.MarketValue.Value, loan.PurchasePrice.Value, loan.DownPayment.Value),
                 EquityValue = CalculateEquityValue(loan.MarketValue.Value, loan.PurchasePrice.Value, loan.DownPayment.Value),
-                LoanInsurancePerMonth = CalculateLoanInsurancePerMonth(loan.MarketValue.Value, loan.PurchasePrice.Value, loan.DownPayment.Value, loan.NumPaymentsPerYear),
-                PropertyTaxPerMonth = CalculatePropertyTaxPerMonth(loan.MarketValue.Value, loan.NumPaymentsPerYear),
-                HomeownersInsurancePerMonth = CalculateHomeownersInsurancePerMonth(loan.MarketValue.Value, loan.NumPaymentsPerYear),
+                LoanInsurancePerMonth = CalculateLoanInsurancePerMonth(loan.MarketValue.Value, loan.PurchasePrice.Value, loan.DownPayment.Value, paymentsPerYear),
+                PropertyTaxPerMonth = CalculatePropertyTaxPerMonth(loan.MarketValue.Value, paymentsPerYear),
+                HomeownersInsurancePerMonth = CalculateHomeownersInsurancePerMonth(loan.MarketValue.Value, paymentsPerYear),
                 MonthlyPaymentPI = CalculateMonthlyPaymentPI(loan),
                 MonthlyPaymentTotalWithFees = CalculateMonthlyPaymentTotalWithFees(loan),
             };

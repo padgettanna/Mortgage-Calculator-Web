@@ -1,39 +1,178 @@
-html {
-  font-size: 14px;
+:root {
+    --brand-primary: #055B65;
+    --brand-secondary: #45828B;
+    --brand-accent: #1BD488;
+    --brand-bg: #FBFCFC;
+    --brand-muted: #E0E5E9;
+    --brand-danger: #D64545;
+    --bs-primary: #055B65;
+    --bs-success: #1BD488;
+    --bs-danger: #D64545;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* Layout */
 body {
-  margin-bottom: 60px;
+    background-color: var(--brand-bg);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+a {
+    color: var(--brand-primary);
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+a:hover {
+    color: var(--brand-secondary);
+    transform: translateY(-1px);
 }
 
-.field-validation-error,
-.field-validation-valid {
-    display: block;
-    min-height: 0.75rem;
+a:focus-visible,
+.nav-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 0.15rem rgba(5, 91, 101, 0.35);
+}
+
+/* Focus styles */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.15rem rgba(5, 91, 101, 0.35);
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link:hover {
+    color: var(--brand-primary);
+}
+
+.nav-pills .nav-link {
+    color: var(--brand-primary);
+    border-radius: 0.5rem;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: var(--brand-muted);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--brand-primary) !important;
+    color: #fff !important;
+}
+
+/* Cards */
+.card {
+    border-radius: 0.75rem;
+    border-color: var(--brand-muted);
+}
+
+/* Tables */
+.table {
+    color: #2c3e42;
+}
+
+.table th {
+    border-bottom: 2px solid var(--brand-muted);
+    font-weight: 600;
+    color: #344f55;
+}
+
+.table tbody tr:hover {
+    background-color: #f5f9fa;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:focus-visible,
+.btn-primary:visited,
+.show > .btn-primary {
+    background-color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: #fff !important;
+}
+
+.btn-outline-primary,
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-outline-primary:focus-visible,
+.btn-outline-primary:visited {
+    border-color: var(--brand-primary) !important;
+    color: var(--brand-primary) !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:active {
+    background-color: var(--brand-primary) !important;
+    color: #fff !important;
+}
+
+.btn-outline-danger,
+.btn-outline-danger:hover,
+.btn-outline-danger:focus,
+.btn-outline-danger:active,
+.btn-outline-danger:focus-visible,
+.btn-outline-danger:visited {
+    border-color: var(--brand-danger) !important;
+    color: var(--brand-danger) !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:active {
+    background-color: var(--brand-danger) !important;
+    color: #fff !important;
+}
+
+.btn-secondary {
+    background-color: var(--brand-muted);
+    border-color: var(--brand-muted);
+    color: #344f55;
+}
+
+.btn-secondary:hover {
+    background-color: var(--brand-secondary);
+    border-color: var(--brand-secondary);
+    color: #fff;
+}
+
+/* Badges */
+.badge.badge-approved,
+.badge.badge-denied {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 90px; 
+    height: 28px;
     font-size: 0.75rem;
-    color: #dc3545;
+    font-weight: 600;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+}
+
+.badge.badge-approved {
+    background-color: var(--brand-accent);
+    color: #0b3d2e;
+}
+
+.badge.badge-denied {
+    background-color: var(--brand-danger);
+    color: #fff;
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+    background-color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: #fff !important;
+    opacity: 0.75;
 }

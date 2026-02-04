@@ -9,14 +9,6 @@ public class Loan
 {
     public int LoanId { get; set;}
 
-    [Required(ErrorMessage = "First name is required")]
-    [StringLength(32, ErrorMessage = "First name can not exceed 32 characters")]
-    public string BorrowerFirstName { get; set; }
-
-    [Required(ErrorMessage = "Last name is required")]
-    [StringLength(32, ErrorMessage = "Last name can not exceed 32 characters")]
-    public string BorrowerLastName { get; set;}
-
     [Required(ErrorMessage = "Annual income is required")]
     [Range(MortgageCalculatorConstants.MinAnnualIncome, MortgageCalculatorConstants.MaxAnnualIncome,
                      ErrorMessage = "Annual Income must be between {1:C} and {2:C}")]
@@ -47,7 +39,7 @@ public class Loan
     // Common values: 12 (monthly), 24 (semi-monthly), or 4 (quarterly)
     [Required(ErrorMessage = "Number of payments per year is required")]
     [Range(1, 24, ErrorMessage = "Number of payments per year must be between {1} and {2}")]
-    public int NumPaymentsPerYear { get; set; }
+    public PaymentsPerYear NumPaymentsPerYear { get; set; }
 
     [Required(ErrorMessage = "Loan term is required")]
     public LoanTerm Term { get; set; }
@@ -63,12 +55,10 @@ public class Loan
         
     }
 
-    public Loan(int loanId, string borrowerFirstName, string borrowerLastName, double annualIncome, double marketValue, double purchasePrice,
-                double downPayment, double annualInterestRate, int numPaymentsPerYear, LoanTerm term, double annualHoaFee)
+    public Loan(int loanId, double annualIncome, double marketValue, double purchasePrice,
+                double downPayment, double annualInterestRate, PaymentsPerYear numPaymentsPerYear, LoanTerm term, double annualHoaFee)
     {
         LoanId = loanId;
-        BorrowerFirstName = borrowerFirstName;
-        BorrowerLastName = borrowerLastName;
         AnnualIncome = annualIncome;
         MarketValue = marketValue;
         PurchasePrice = purchasePrice;
