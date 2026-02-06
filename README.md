@@ -1,12 +1,12 @@
 # Mortgage Calculator Web Application
 
-A mortgage loan calculator web application built with C# and ASP.NET Core MVC. This application helps users calculate monthly mortgage payments, determine loan eligibility, and understand the financial implications of their home purchase.
+A mortgage loan calculator web application built with C# and ASP.NET Core MVC. This application allows users to calculate monthly mortgage payments, evaluate loan eligibility, and save calculation results for later review and adjustment.
 
 ## Project Status
 
-This project is actively under development as part of a Computer Science capstone.
-It originated as a console-based mortgage calculator and is being incrementally
-refactored and expanded into a full ASP.NET Core MVC web application.
+This project is under active development as part of a Computer Science capstone at Southern New Hampshire University.
+
+The application originated as a console-based mortgage calculator developed during the Microsoft Software and Systems Academy (MSSA) and has been refactored into a full ASP.NET Core MVC web application. Enhancements focus on professional architecture, database persistence, and user-focused functionality.
 
 ## Features
 
@@ -19,14 +19,16 @@ refactored and expanded into a full ASP.NET Core MVC web application.
   - Homeowners insurance
   - HOA fees
   - Private Mortgage Insurance (PMI) when applicable
-- **Multiple Loan Terms**: Support for different loan term lengths
-- **User-Friendly Interface**: Clean, responsive design for easy data entry
-- **Results Flow**: Temporarily preserves loan input to support recalculation and adjustment
+- **Multiple Loan Configurations**: Configurable loan terms; flexible payment schedules
+- **User Accounts and History**: Authentication via ASP.NET Core Identity; persistent storage of calculation snapshots; ability to review, adjust, or delete previous calculations
+- **Clean, Responsive UI**: MVC-based views; Bootstrap-based styling with custom theming
 
 ## Technology Stack
 
 - **Framework**: ASP.NET Core MVC
 - **.NET Version**: .NET 10
+- **Database**: SQL Server with Entity Framework Core
+- **Authentication**: ASP.NET Core Identity
 - **Architecture**: Clean architecture with separate domain layer
 
 ## Project Structure
@@ -36,9 +38,12 @@ MortgageLoanCalculator/
   - Controllers/
     - HomeController.cs
     - LoanController.cs
-  - Models/       
+  - Data/
+    - ApplicationDbContext.cs
+  - Models/
+    - MortgageCalculationSnapshot.cs
     - MortgageResultViewModel.cs
-    - ErrorViewModel.cs
+    - MortgageCalculationListItemViewModel.cs
   - Views/
     - Home/
     - Loan/
@@ -57,6 +62,7 @@ MortgageLoanCalculator/
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later
 - A code editor (Visual Studio 2025, Visual Studio Code, or Rider)
+- SQL Server (local or Azure)
 
 ### Installation
 
@@ -71,9 +77,9 @@ cd Mortgage-Calculator-Web
 dotnet restore
 ```
 
-3. Build the project:
+3. Apply database migrations:
 ```bash
-dotnet build
+dotnet ef database update
 ```
 
 4. Run the application:
@@ -86,51 +92,51 @@ dotnet run
 
 ## Usage
 
-1. **Enter Borrower Information**:
-   - First and Last Name
-   - Annual Income
+1. **Create an Account or Sign In**
+2. **Enter Loan and Borrower Information**
+   - Annual income
+   - Purchase price and down payment
+   - Interest rate and loan term
+   - Annual HOA fees (if applicable)
 
-2. **Enter Loan Details**:
-   - Purchase Price
-   - Down Payment
-   - Annual Interest Rate
-   - Loan Term (years)
-   - Annual HOA Fees (if applicable)
+3. **Calculate Mortgage**
+   - View monthly payment details
+   - Review payment-to-income ratio and eligibility decision
 
-3. **Calculate**: Click the calculate button to see:
-   - Monthly payment breakdown (Principal & Interest)
-   - Total monthly payment including all fees
-   - Payment-to-income ratio
-   - Loan eligibility decision
-   - Equity percentage and value
-
-4. **Reset**: Clear the form to start a new calculation
+4. **Save and Review**
+   - Saved calculations appear in the user’s history
+   - Adjust inputs or delete previous calculations as needed
 
 ## Key Components
 
 ### LoanCalculator
-Handles all mortgage calculation logic including:
-- Loan amount with origination fees and closing costs
-- Monthly payment (Principal & Interest)
+Encapsulates mortgage calculation logic, including:
+- Loan amount and fees
+- Monthly principal and interest
 - PMI calculations
-- Property tax and homeowners insurance
-- Total monthly payment
+- Total monthly cost modeling
 
 ### LoanDecisionService
-Evaluates loan eligibility based on debt-to-income ratio standards
+Evaluates loan eligibility based on payment-to-income ratio thresholds
 
-### MortgageCalculatorConstants
-Stores financial constants such as:
-- Origination fee percentage
-- Closing costs
-- Property tax rates
-- Insurance rates
-- PMI thresholds
+### MortgageCalculationSnapshot
+Represents a persisted snapshot of a user’s mortgage calculation, enabling historical review and comparison
 
 ## Author
 
 Anna Padgett
 
-## Acknowledgments
+## Notes
 
-Built with ASP.NET Core and modern web development best practices.
+This project is intended for educational purposes and demonstrates modern ASP.NET Core development practices, including MVC architecture, Entity Framework Core, authentication, and database integration
+
+## Screenshots
+
+### Mortgage Input Form
+![Mortgage Input Form](screenshots/create.png)
+
+### Calculation Results
+![Calculation Results](screenshots/result.png)
+
+### Saved Calculation History
+![Calculation History](screenshots/history.png)
