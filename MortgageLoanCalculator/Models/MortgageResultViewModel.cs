@@ -3,6 +3,10 @@
 
 namespace MortgageLoanCalculator.Models
 {
+    /// <summary>
+    /// View model used to display the full results of a single
+    /// mortgage calculation after submission.
+    /// </summary>
     public class MortgageResultViewModel
     {
         public int SnapshotId { get; set; }

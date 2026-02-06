@@ -2,6 +2,10 @@
 
 namespace MortgageLoanCalculator.Models
 {
+    /// <summary>
+    /// View model used to display a list of saved
+    /// mortgage calculations in the history view.
+    /// </summary>
     public class MortgageCalculationListItemViewModel
     {
         public int SnapshotId { get; set; }

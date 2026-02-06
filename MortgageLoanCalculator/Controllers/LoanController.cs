@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MortgageLoanCalculator.Data;
 using MortgageLoanCalculator.Domain;
 using MortgageLoanCalculator.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -10,12 +12,11 @@ namespace MortgageLoanCalculator.Controllers
 {
     /// <summary>
     /// Handles mortgage loan creation, calculation, and result display.
-    /// Persists user-specific mortgage calculation snapshots for later comparison.
     /// 
-    /// - Accept user input via Loan model
-    /// - Invoke domain services to calculate mortgage results
+    /// - Accept and validate user input
+    /// - Execute mortgage calculations via domain services
     /// - Persist user-specific calculation snapshots
-    /// - Support "Adjust Values" by restoring saved inputs
+    /// - Support adjustment and history features
     /// - Authentication is required for all actions
     /// </summary>
     [Authorize]
@@ -32,7 +33,7 @@ namespace MortgageLoanCalculator.Controllers
             return View();
         }
 
-        // POST: Process loan application and calculate results
+        // POST: Process loan data, calculate results, persist a snapshot, and display the results view
         [HttpPost]
         public IActionResult Create(Loan loan)
         {
@@ -65,6 +66,7 @@ namespace MortgageLoanCalculator.Controllers
                 Decision = decision
             };
 
+            // Persist user-specific snapshot for history and adjustment
             var snapshot = new MortgageCalculationSnapshot
             {
                 UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
@@ -93,13 +95,13 @@ namespace MortgageLoanCalculator.Controllers
             return View("Result", resultViewModel);
         }
 
-        // Clears the current workflow and returns a blank form.
+        // Clear the current workflow and return a blank form
         public IActionResult Reset()
         {
             return RedirectToAction("Create");
         }
 
-        // Restores a previously saved snapshot and pre-fills the input form to allow the user to adjust values.
+        // Restore a previously saved snapshot and pre-fill the input form to allow the user to adjust values
         public IActionResult Adjust(int id)
         {
             var snapshot = _context.MortgageCalculations
@@ -126,6 +128,8 @@ namespace MortgageLoanCalculator.Controllers
 
             return View("Create", loan);
         }
+
+        // Display a history of the authenticated user's saved calculations
         public IActionResult History()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -150,6 +154,7 @@ namespace MortgageLoanCalculator.Controllers
             return View(snapshots);
         }
 
+        // Delete a saved calculation owned by the authenticated user
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
